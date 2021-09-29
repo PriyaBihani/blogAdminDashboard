@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Admin from './layouts/Admin';
+import Loader from './components/Loader';
+import AppErrorBoundary from './components/ErrorBoundary';
+import NoInternetConnection from './components/NoInternetConnection';
+
+import './assets/css/index.css';
+import 'antd/dist/antd.css';
+
+const App = () => {
+	const dispatch = useDispatch();
+	const state = useSelector((state) => state);
+	const [isDeviceOffline, setisDeviceOffline] = useState(false);
+	console.log(state);
+	const setupOfflineDetectors = () => {
+		window.addEventListener('offline', () => setisDeviceOffline(true));
+		window.addEventListener('online', () => setisDeviceOffline(false));
+	};
+
+	useEffect(() => {
+		setupOfflineDetectors();
+	}, []);
+
+	return (
+		<AppErrorBoundary logoutUser={() => console.log('FUnc to logout')}>
+			{isDeviceOffline && (
+				<NoInternetConnection toggler={() => setisDeviceOffline(false)} />
+			)}
+			<Toaster />
+			{/* {state.showLoader ? <Loader text={state.showLoader} /> : ''} */}
+			<Switch>
+				<Route path='/admin' component={Admin} />
+				<Redirect from='/' to='/admin/dashboard' />
+			</Switch>
+		</AppErrorBoundary>
+	);
+};
 
 export default App;
