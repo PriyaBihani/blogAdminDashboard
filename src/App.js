@@ -3,6 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 
+import isOffline from './helpers/isOffline';
+
 import Admin from './layouts/Admin';
 import Loader from './components/Loader';
 import AppErrorBoundary from './components/ErrorBoundary';
@@ -12,11 +14,12 @@ import './assets/css/index.css';
 import 'antd/dist/antd.css';
 
 const App = () => {
-	const dispatch = useDispatch();
 	const state = useSelector((state) => state);
+
 	const [isDeviceOffline, setisDeviceOffline] = useState(false);
-	console.log(state);
+
 	const setupOfflineDetectors = () => {
+		if (isOffline()) setisDeviceOffline(true);
 		window.addEventListener('offline', () => setisDeviceOffline(true));
 		window.addEventListener('online', () => setisDeviceOffline(false));
 	};
@@ -28,10 +31,13 @@ const App = () => {
 	return (
 		<AppErrorBoundary logoutUser={() => console.log('FUnc to logout')}>
 			{isDeviceOffline && (
-				<NoInternetConnection toggler={() => setisDeviceOffline(false)} />
+				<NoInternetConnection
+					isDeviceOffline={isDeviceOffline}
+					toggler={() => setisDeviceOffline(false)}
+				/>
 			)}
 			<Toaster />
-			{/* {state.showLoader ? <Loader text={state.showLoader} /> : ''} */}
+			{state.showLoader ? <Loader text={state.showLoader} /> : ''}
 			<Switch>
 				<Route path='/admin' component={Admin} />
 				<Redirect from='/' to='/admin/dashboard' />

@@ -20,6 +20,9 @@ const rootReducer = (state = initialState, action = { type: '' }) => {
 		case actions.LOGOUT_USER:
 			if (state.isAuthenticated) return initialState;
 			else return state;
+
+		default:
+			return state;
 	}
 };
 

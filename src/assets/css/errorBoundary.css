@@ -1,0 +1,27 @@
+.errorfallbackui {
+	min-height: 100vh;
+	align-items: center;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	text-align: center;
+}
+.errorfallbackui-image {
+	max-height: 15rem;
+	margin: 1rem auto;
+}
+.errorfallbackui-label {
+	font-weight: 500;
+	font-size: 1.25rem;
+	max-width: 500px;
+	margin: 0 auto;
+}
+.errorfallbackui-label-message {
+	margin: 1rem 0;
+	background: #efefef;
+	border-radius: 0.25rem;
+	border: 0.1rem solid #cfcfcf;
+	padding: 0.75rem;
+	font-size: 0.875rem;
+	white-space: pre-wrap;
+}

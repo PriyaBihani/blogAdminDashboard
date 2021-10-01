@@ -25,41 +25,32 @@ const switchRoutes = (
 
 const Admin = ({ ...rest }) => {
 	return (
-		<Layout>
-			<Sider
-				style={{
-					overflow: 'auto',
-					height: '100vh',
-					position: 'fixed',
-					left: 0,
-				}}>
-				<div className='logo' />
-				<Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
-					{routes.map((route, index) => (
-						<Menu.Item key={index} icon={route.icon}>
-							<NavLink
-								to={`${route.layout}${route.path}`}
-								activeStyle={{
-									fontWeight: 'bold',
-									color: 'red',
-								}}>
-								{route.name}
-							</NavLink>
-						</Menu.Item>
-					))}
-				</Menu>
-			</Sider>
-			<Layout className='site-layout' style={{ marginLeft: 200 }}>
-				<Header className='site-layout-background' style={{ padding: 0 }} />
+		<Layout className='site-layout'>
+			<Header className='site-layout-background' style={{ padding: 0 }} />
+			<Layout className='site-layout'>
+				<Sider
+					style={{
+						overflow: 'auto',
+						height: '100vh',
+						position: 'fixed',
+						left: 0,
+					}}>
+					<div className='logo' />
+					<Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
+						{routes.map((route, index) => (
+							<Menu.Item key={index} icon={route.icon}>
+								<NavLink to={`${route.layout}${route.path}`}>
+									{route.name}
+								</NavLink>
+							</Menu.Item>
+						))}
+					</Menu>
+				</Sider>
 				<Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-					<div
-						className='site-layout-background'
-						style={{ padding: 24, textAlign: 'center' }}>
-						{switchRoutes}
-					</div>
+					<div style={{ padding: 24, textAlign: 'center' }}>{switchRoutes}</div>
 				</Content>
-				<Footer style={{ textAlign: 'center' }}>Codersgala Blog Admin</Footer>
 			</Layout>
+			<Footer style={{ textAlign: 'center' }}>Codersgala Blog Admin</Footer>
 		</Layout>
 	);
 };

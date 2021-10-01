@@ -1,0 +1,16 @@
+.fixedcontainer {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0.75rem;
+	position: relative;
+}
+@media (min-width: 1575px) {
+	.fixedcontainer {
+		max-width: 1500px;
+	}
+}
+@media (min-width: 1775px) {
+	.fixedcontainer {
+		max-width: 1700px;
+	}
+}
