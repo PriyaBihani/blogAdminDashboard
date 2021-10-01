@@ -25,32 +25,33 @@ const switchRoutes = (
 
 const Admin = ({ ...rest }) => {
 	return (
-		<Layout className='site-layout'>
-			<Header className='site-layout-background' style={{ padding: 0 }} />
+		<Layout>
+			<Sider
+				style={{
+					minHeight: '100vh',
+				}}>
+				<div className='logo' />
+				<Menu theme='dark' mode='inline' defaultSelectedKeys={['0']}>
+					{routes.map((route, index) => (
+						<Menu.Item key={index} icon={route.icon}>
+							<NavLink to={`${route.layout}${route.path}`}>
+								{route.name}
+							</NavLink>
+						</Menu.Item>
+					))}
+				</Menu>
+			</Sider>
 			<Layout className='site-layout'>
-				<Sider
-					style={{
-						overflow: 'auto',
-						height: '100vh',
-						position: 'fixed',
-						left: 0,
-					}}>
-					<div className='logo' />
-					<Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
-						{routes.map((route, index) => (
-							<Menu.Item key={index} icon={route.icon}>
-								<NavLink to={`${route.layout}${route.path}`}>
-									{route.name}
-								</NavLink>
-							</Menu.Item>
-						))}
-					</Menu>
-				</Sider>
-				<Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-					<div style={{ padding: 24, textAlign: 'center' }}>{switchRoutes}</div>
+				<Header style={{ padding: 0 }} />
+				<Content
+					className='site-layout-background'
+					style={{ margin: '24px 16px 0', padding: 24 }}>
+					{switchRoutes}
 				</Content>
+				<Footer style={{ textAlign: 'center' }}>
+					&copy; {new Date().getFullYear()} Codersgala Blog Admin
+				</Footer>
 			</Layout>
-			<Footer style={{ textAlign: 'center' }}>Codersgala Blog Admin</Footer>
 		</Layout>
 	);
 };
