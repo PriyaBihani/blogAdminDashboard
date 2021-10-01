@@ -28,7 +28,10 @@ const Admin = ({ ...rest }) => {
 		<Layout>
 			<Sider
 				style={{
-					minHeight: '100vh',
+					height: '100vh',
+					position: 'sticky',
+					top: 0,
+					left: 0,
 				}}>
 				<div className='logo' />
 				<Menu theme='dark' mode='inline' defaultSelectedKeys={['0']}>
