@@ -1,7 +1,13 @@
+import {
+	countWords,
+	calculateReadTime,
+	createUniqueTitle,
+} from '../helpers/postHelpers';
+
 export const Post = (details) => {
 	return {
 		uniqueId: details.uniqueId || '',
-		title: details.title || '',
+		title: createUniqueTitle(details.title) || '',
 		mainImage: details.mainImage || '', // url
 		mainImageAlt: details.mainImageAlt,
 		createdAt: details.createdAt || new Date().getTime(),
@@ -12,8 +18,8 @@ export const Post = (details) => {
 		descSnippet: details.descSnippet || '', // blog card description
 		createdBy: details.createdBy || {}, // Doc Ref to user.
 		metaDesc: details.metaDesc,
-		readTime: details.readTime || 0,
-		wordCount: details.wordCount || 0,
+		readTime: calculateReadTime(details.postContent) ?? 0,
+		wordCount: countWords(details.postContent) ?? 0,
 		isDraft: details.isDraft || false,
 		postContent: details.postContent || '',
 	};

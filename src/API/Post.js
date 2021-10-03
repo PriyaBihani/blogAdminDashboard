@@ -23,28 +23,28 @@ export const uploadPostAssets = async (
 		const id = imageId + '-' + uuid().replace(/-/g, '').slice(0, 15);
 		const storageRef = ref(storage, `${constants.POSTS}/${postId}/${id}`);
 
-		const uploadImage = uploadBytesResumable(storageRef, postImageFile, {
+		const uploadImage = await uploadBytesResumable(storageRef, postImageFile, {
 			contentType: postImageFile.type,
 		});
 
-		uploadImage.on(
-			'state_changed',
-			(snapshot) => {
-				const progress =
-					(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+		// uploadImage.on(
+		// 	'state_changed',
+		// 	(snapshot) => {
+		// 		const progress =
+		// 			(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
-				setLoader(`Uploading image.. ${progress}`);
-			},
-			(error) => {
-				throw new Error(error.message);
-			},
-			() => {
-				setLoader('Creating Post');
-				getDownloadURL(uploadImage.snapshot.ref).then((downloadURL) => {
-					return downloadURL;
-				});
-			}
-		);
+		// 		setLoader(`Uploading image.. ${progress}`);
+		// 	},
+		// 	(error) => {
+		// 		throw new Error(error.message);
+		// 	},
+		// 	() => {
+		// 		setLoader('Creating Post');
+		getDownloadURL(uploadImage.snapshot.ref).then((downloadURL) => {
+			return downloadURL;
+		});
+		// 	}
+		// );
 	} catch (error) {
 		console.log(error);
 		return null;

@@ -93,16 +93,13 @@ const CreatePost = () => {
 					<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
 				</Form.Item>
 				<Form.Item
-					label='Post Unique Title for URL'
-					name={'uniqueTitle'}
-					rules={[{ required: true }]}>
-					<Input size={'large'} placeholder='Eg: how-to-start-web-dev' />
-				</Form.Item>
-				<Form.Item
-					label='Post Keywords (Comma Separated)'
+					label='Add Keywords for SEO'
 					name={'keywords'}
 					rules={[{ required: true }]}>
-					<Input size={'large'} placeholder='Eg: Web,HTML,CSS' />
+					<Input size={'large'} placeholder='Eg: Web, HTML, CSS' />
+				</Form.Item>
+				<Form.Item label='Tags' name={'tags'} rules={[{ required: true }]}>
+					<Input size={'large'} placeholder='Eg: #Web #HTML #CSS' />
 				</Form.Item>
 				<Form.Item
 					label='Select categories'
@@ -119,12 +116,22 @@ const CreatePost = () => {
 				</Form.Item>
 				<Form.Item
 					label='Small Description Snippet for SEO'
-					name={'desc'}
+					name={'metaDesc'}
 					rules={[{ required: true }]}>
 					<Input.TextArea
 						showCount
 						maxLength={160}
 						placeholder='Around 160 characters'
+					/>
+				</Form.Item>
+				<Form.Item
+					label='Description for blog card'
+					name={'descSnippet'}
+					rules={[{ required: true }]}>
+					<Input.TextArea
+						showCount
+						maxLength={100}
+						placeholder='Around 100 characters'
 					/>
 				</Form.Item>
 				<Form.Item>
