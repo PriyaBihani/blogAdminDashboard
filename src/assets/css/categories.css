@@ -1,7 +1,7 @@
 .categoriesContainer {
 	display: flex;
 	flex-flow: row wrap;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-evenly;
 }
 
@@ -13,4 +13,23 @@
 	width: 40%;
 	position: sticky;
 	top: 0;
+	border: 1px solid #ccc;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 5px;
+	border-radius: 5px;
+}
+
+.createCategoryCard .ant-card-head-title {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+
+.categoryItem {
+	border: 1px solid #ccc;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 5px;
+	border-radius: 5px;
+	margin: 7px;
+}
+
+.categoryList .name {
+	font-weight: 500;
 }

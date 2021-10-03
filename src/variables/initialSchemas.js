@@ -24,3 +24,12 @@ export const Post = (details) => {
 		content: details.content || '',
 	};
 };
+
+export const Category = (details) => {
+	return {
+		id: createUniqueTitle(details.name) || '',
+		name: details.name || '',
+		createdAt: details.createdAt || new Date().getTime(),
+		updatedAt: details.updatedAt || new Date().getTime(),
+	};
+};
