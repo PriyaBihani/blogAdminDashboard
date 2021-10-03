@@ -1,9 +1,10 @@
-import { v4 as uuid } from 'uuid';
 import * as constants from '../variables/constants';
 import {
 	doc,
 	getDocs,
 	setDoc,
+	deleteDoc,
+	updateDoc,
 	serverTimestamp,
 	query,
 	collection,
@@ -50,6 +51,38 @@ export const createCategory = async (category, callback) => {
 		await setDoc(docRef, newCategory);
 
 		return callback(null, newCategory);
+	} catch (error) {
+		console.log(error);
+		callback(error.message, null);
+	}
+};
+
+export const updateCategory = async (category, callback) => {
+	try {
+		if (!category.id) throw new Error('Please try again later.');
+
+		let newCategory = {
+			...category,
+			updatedAt: serverTimestamp(),
+		};
+
+		let docRef = doc(db, constants.CATEGORIES, newCategory.id);
+
+		await updateDoc(docRef, newCategory);
+
+		return callback(null, newCategory);
+	} catch (error) {
+		console.log(error);
+		callback(error.message, null);
+	}
+};
+
+export const deleteCategory = async (category, callback) => {
+	try {
+		let docRef = doc(db, constants.CATEGORIES, category.id);
+		await deleteDoc(docRef);
+
+		return callback(null, category);
 	} catch (error) {
 		console.log(error);
 		callback(error.message, null);
