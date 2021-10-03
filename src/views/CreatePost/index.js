@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
 	PlusOutlined,
@@ -14,9 +14,12 @@ import isValidMainImage from '../../helpers/isValidMainImage';
 import setLoader from '../../helpers/setLoader';
 import { Post } from '../../variables/initialSchemas';
 import { createPost } from '../../API/Post';
+import Editor from '../../components/Editor';
 
 const CreatePost = () => {
 	const [form] = Form.useForm();
+
+	const [content, setcontent] = useState(null)
 
 	const onPublish = (postDetails) => {
 		console.log(postDetails);
@@ -133,6 +136,12 @@ const CreatePost = () => {
 						maxLength={100}
 						placeholder='Around 100 characters'
 					/>
+				</Form.Item>
+				<Form.Item
+					label='Start Writing'
+					name={'content'}
+					rules={[{ required: true }]}>
+					<Editor handleEditor={setcontent} />
 				</Form.Item>
 				<Form.Item>
 					<Space>
