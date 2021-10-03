@@ -27,24 +27,29 @@ export const uploadPostAssets = async (
 			contentType: postImageFile.type,
 		});
 
-		uploadImage.on(
-			'state_changed',
-			(snapshot) => {
-				const progress =
-					(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+		var val = new Promise(resolve => {
+			uploadImage.on(
+				'state_changed',
+				(snapshot) => {
+					const progress =
+						(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
-				setLoader(`Uploading image.. ${progress}`);
-			},
-			(error) => {
-				throw new Error(error.message);
-			},
-			() => {
-				setLoader('Creating Post');
-				getDownloadURL(uploadImage.snapshot.ref).then((downloadURL) => {
-					return downloadURL;
-				});
-			}
-		);
+					setLoader(`Uploading image.. ${progress}`);
+				},
+				(error) => {
+					throw new Error(error.message);
+				},
+				async () => {
+					setLoader('Creating Post');
+					// console.log('sdf', uploadImage.snapshot.ref)
+					const value = await getDownloadURL(uploadImage.snapshot.ref)
+					resolve(value)
+				}
+			)
+		});
+
+		var value = await val
+		return value
 	} catch (error) {
 		console.log(error);
 		return null;
