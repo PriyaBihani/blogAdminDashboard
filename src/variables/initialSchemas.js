@@ -18,9 +18,9 @@ export const Post = (details) => {
 		descSnippet: details.descSnippet || '', // blog card description
 		createdBy: details.createdBy || {}, // Doc Ref to user.
 		metaDesc: details.metaDesc,
-		readTime: calculateReadTime(details.postContent) ?? 0,
-		wordCount: countWords(details.postContent) ?? 0,
+		readTime: calculateReadTime(details.content) ?? 0,
+		wordCount: countWords(details.content) ?? 0,
 		isDraft: details.isDraft || false,
-		postContent: details.postContent || '',
+		content: details.content || '',
 	};
 };
