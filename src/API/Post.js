@@ -23,7 +23,7 @@ export const uploadPostAssets = async (
 		const id = imageId + '-' + uuid().replace(/-/g, '').slice(0, 15);
 		const storageRef = ref(storage, `${constants.POSTS}/${postId}/${id}`);
 
-		const uploadImage = await uploadBytesResumable(storageRef, postImageFile, {
+		const uploadImage = uploadBytesResumable(storageRef, postImageFile, {
 			contentType: postImageFile.type,
 		});
 
