@@ -1,7 +1,109 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { List, Card, Typography, Form, Input, Button } from 'antd';
+import { EditFilled, DeleteFilled, RightCircleFilled } from '@ant-design/icons';
+import toast from 'react-hot-toast';
+import { fetchAllCategories } from '../../API/Categories';
+import setLoader from '../../helpers/setLoader';
 
 const Categories = () => {
-	return <div>Categories</div>;
+	let [categories, setCategories] = useState([
+		{ name: 'Category', id: 'category' },
+		{ name: 'Firebase', id: 'firebase' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+		{ name: 'Web Development', id: 'web-development' },
+	]);
+	const onCreate = (values) => {
+		//
+	};
+	// useEffect(() => {
+	// 	setLoader('Fetching Categories...');
+	// 	fetchAllCategories((err, data) => {
+	// 		setLoader(false);
+	// 		if (err) return toast.error(err);
+	// 		setCategories(data);
+	// 		toast.success(`${data.length} Categories Fetched`);
+	// 	});
+	// }, []);
+	return (
+		<>
+			<Typography.Title level={2}>Categories</Typography.Title>
+			<div className={'categoriesContainer'}>
+				<List
+					size='large'
+					className='categoryList'
+					itemLayout='horizontal'
+					dataSource={categories}
+					renderItem={(item) => (
+						<List.Item
+							actions={[
+								<EditFilled style={{ cursor: 'pointer', color: 'blue' }} />,
+								<DeleteFilled style={{ cursor: 'pointer', color: 'red' }} />,
+							]}>
+							{item.name}
+						</List.Item>
+					)}
+				/>
+				<Card
+					title='Create a new category'
+					className={'createCategoryCard'}
+					bordered={true}>
+					<Form layout={'vertical'} onFinish={onCreate} requiredMark={false}>
+						<Form.Item
+							label='Category Name'
+							name={'name'}
+							rules={[{ required: true }]}>
+							<Input size={'large'} placeholder='Eg: Web Development' />
+						</Form.Item>
+						<Form.Item>
+							<Button size='large' type='primary' htmlType='submit'>
+								Create <RightCircleFilled />
+							</Button>
+						</Form.Item>
+					</Form>
+				</Card>
+			</div>
+		</>
+	);
 };
 
 export default Categories;

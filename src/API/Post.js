@@ -1,7 +1,15 @@
 import * as constants from '../variables/constants';
 import { v4 as uuid } from 'uuid';
 
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import {
+	doc,
+	getDocs,
+	setDoc,
+	serverTimestamp,
+	query,
+	collection,
+	where,
+} from 'firebase/firestore';
 import {
 	getStorage,
 	ref,
@@ -41,7 +49,6 @@ export const uploadPostAssets = async (
 				},
 				async () => {
 					setLoader('Creating Post');
-					// console.log('sdf', uploadImage.snapshot.ref)
 					const value = await getDownloadURL(uploadImage.snapshot.ref);
 					resolve(value);
 				}
@@ -58,6 +65,15 @@ export const uploadPostAssets = async (
 
 export const createPost = async (post, callback) => {
 	try {
+		// check if unique title is already present
+		let postsRef = collection(db, constants.POSTS);
+		const q = query(postsRef, where('uniqueId', '==', post.uniqueId));
+
+		const querySnapshot = await getDocs(q);
+
+		if (!querySnapshot.empty)
+			throw new Error('Post with this title already exists');
+
 		let newPost = {
 			...post,
 			id: uuid().replace(/-/g, '').slice(0, 15),
@@ -69,10 +85,11 @@ export const createPost = async (post, callback) => {
 		if (post.mainImage && Object.keys(post.mainImage).length > 0) {
 			url = await uploadPostAssets(post.mainImage, newPost.id);
 		}
-		console.log(url);
+
 		if (typeof url === 'string') {
 			newPost.mainImage = url;
-			await setDoc(doc(db, constants.POSTS, newPost.id), newPost);
+			let docRef = doc(db, constants.POSTS, newPost.id);
+			await setDoc(docRef, newPost);
 		} else {
 			throw new Error('Error uploading image, please try again later');
 		}
