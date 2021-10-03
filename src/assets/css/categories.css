@@ -1,0 +1,16 @@
+.categoriesContainer {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.categoryList {
+	width: 40%;
+}
+
+.createCategoryCard {
+	width: 40%;
+	position: sticky;
+	top: 0;
+}

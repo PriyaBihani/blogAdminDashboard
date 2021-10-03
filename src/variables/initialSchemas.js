@@ -6,8 +6,8 @@ import {
 
 export const Post = (details) => {
 	return {
-		uniqueId: details.uniqueId || '',
-		title: createUniqueTitle(details.title) || '',
+		uniqueId: createUniqueTitle(details.title) || '',
+		title: details.title || '',
 		mainImage: details.mainImage || '', // url
 		mainImageAlt: details.mainImageAlt,
 		createdAt: details.createdAt || new Date().getTime(),

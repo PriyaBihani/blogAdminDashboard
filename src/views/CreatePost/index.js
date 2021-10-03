@@ -22,14 +22,14 @@ const CreatePost = () => {
 	const [content, setcontent] = useState(null)
 
 	const onPublish = (postDetails) => {
-		console.log(postDetails);
 		setLoader('Creating Post.');
 		postDetails.mainImage = postDetails.mainImage.fileList[0].originFileObj;
 		postDetails = Post(postDetails);
 		createPost(postDetails, (err, data) => {
-			if (err) toast.error(err.message);
 			setLoader(false);
+			if (err) return toast.error(err);
 			onReset();
+			return toast.success('Post Created Successfully.');
 		});
 	};
 
