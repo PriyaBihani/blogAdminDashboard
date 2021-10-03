@@ -27,7 +27,7 @@ export const uploadPostAssets = async (
 			contentType: postImageFile.type,
 		});
 
-		var val = new Promise(resolve => {
+		let val = new Promise((resolve) => {
 			uploadImage.on(
 				'state_changed',
 				(snapshot) => {
@@ -42,14 +42,14 @@ export const uploadPostAssets = async (
 				async () => {
 					setLoader('Creating Post');
 					// console.log('sdf', uploadImage.snapshot.ref)
-					const value = await getDownloadURL(uploadImage.snapshot.ref)
-					resolve(value)
+					const value = await getDownloadURL(uploadImage.snapshot.ref);
+					resolve(value);
 				}
-			)
+			);
 		});
 
-		var value = await val
-		return value
+		let url = await val;
+		return url;
 	} catch (error) {
 		console.log(error);
 		return null;
