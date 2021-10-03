@@ -71,7 +71,7 @@ export const createPost = async (post, callback) => {
 
 		const querySnapshot = await getDocs(q);
 
-		if (!querySnapshot.empty)
+		if (querySnapshot.empty)
 			throw new Error('Post with this title already exists');
 
 		let newPost = {
