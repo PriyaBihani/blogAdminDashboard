@@ -33,11 +33,11 @@ export const createCategory = async (category, callback) => {
 	try {
 		if (!category.id) throw new Error('Please try again later.');
 
-		let categoryRef = collection(db, constants.POSTS);
+		let categoryRef = collection(db, constants.CATEGORIES);
 		const q = query(categoryRef, where('id', '==', category.id));
 		const querySnapshot = await getDocs(q);
 
-		if (querySnapshot.empty) throw new Error('This category already exist');
+		if (!querySnapshot.empty) throw new Error('This category already exist');
 
 		let newCategory = {
 			...category,
