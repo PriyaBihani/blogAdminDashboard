@@ -7,25 +7,45 @@ import {
 	RedoOutlined,
 	EyeFilled,
 } from '@ant-design/icons';
+import toast from 'react-hot-toast';
 import { Typography, Form, Input, Upload, Button, Select, Space } from 'antd';
 
 import isValidMainImage from '../../helpers/isValidMainImage';
+import setLoader from '../../helpers/setLoader';
+import { Post } from '../../variables/initialSchemas';
+import { createPost } from '../../API/Post';
 
 const CreatePost = () => {
 	const [form] = Form.useForm();
-	const onFinish = (values) => {
-		console.log('Received values of form: ', values);
+
+	const onPublish = (postDetails) => {
+		console.log(postDetails);
+		setLoader('Creating Post.');
+		postDetails.mainImage = postDetails.mainImage.fileList[0].originFileObj;
+		postDetails = Post(postDetails);
+		createPost(postDetails, (err, data) => {
+			if (err) toast.error(err.message);
+			setLoader(false);
+			onReset();
+		});
 	};
+
+	const onSaveAsDraft = (postDetails) => {
+		postDetails.isDraft = true;
+		onPublish(postDetails);
+	};
+
 	const onReset = () => {
 		form.resetFields();
 	};
+
 	return (
 		<div className={'createPostContainer'}>
 			<Typography.Title level={2}>Create Post</Typography.Title>
 			<Form
 				form={form}
 				layout={'vertical'}
-				onFinish={onFinish}
+				onFinish={onPublish}
 				requiredMark={false}>
 				<Form.Item
 					label='Post Title'
@@ -39,7 +59,7 @@ const CreatePost = () => {
 					rules={[
 						{
 							required: true,
-							message: 'Please upload a file in this dimensions',
+							message: 'Please upload a file.',
 						},
 						() => ({
 							validator(_, value) {
@@ -49,9 +69,7 @@ const CreatePost = () => {
 								) {
 									return Promise.resolve();
 								}
-								return Promise.reject(
-									new Error('The two passwords that you entered do not match!')
-								);
+								return Promise.reject(new Error('File dimensions are wrong.'));
 							},
 						}),
 					]}>
@@ -70,7 +88,7 @@ const CreatePost = () => {
 				</Form.Item>
 				<Form.Item
 					label='Post Main Image Alt Text'
-					name={'mainImageAltText'}
+					name={'mainImageAlt'}
 					rules={[{ required: true }]}>
 					<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
 				</Form.Item>
@@ -114,7 +132,7 @@ const CreatePost = () => {
 						<Button size='large' type='primary' htmlType='submit'>
 							Publish <RightCircleFilled />
 						</Button>
-						<Button size='large' type='primary'>
+						<Button size='large' type='primary' onClick={onSaveAsDraft}>
 							Save As Draft <MailFilled />
 						</Button>
 						<Button size='large' type='primary' onClick={onReset}>
