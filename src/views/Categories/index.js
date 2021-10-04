@@ -113,21 +113,43 @@ const Categories = () => {
 									style={{ cursor: 'pointer', color: 'red' }}
 								/>,
 							]}>
-							<div className={'name'}>
+							<div className={'values'}>
 								{editMode && item.id === editCategory.id ? (
-									<Input
-										value={editCategory.name}
-										bordered={false}
-										autoFocus
-										onChange={(e) =>
-											setEditCategory((prevVal) => ({
-												...prevVal,
-												name: e.target.value,
-											}))
-										}
-									/>
+									<>
+										<Input
+											value={editCategory.name}
+											bordered={false}
+											autoFocus
+											onChange={(e) =>
+												setEditCategory((prevVal) => ({
+													...prevVal,
+													name: e.target.value,
+												}))
+											}
+										/>
+										<Input
+											type='color'
+											colorpick-eyedropper-active='false'
+											className={'colorPicker'}
+											onChange={(e) => {
+												setEditCategory((prevVal) => ({
+													...prevVal,
+													color: e.target.value,
+												}));
+											}}
+										/>
+									</>
 								) : (
-									item.name
+									<>
+										{item.name} {'  '}{' '}
+										<span
+											style={{
+												backgroundColor: item.color ?? '#000',
+												width: '10px',
+												height: '10px',
+												marginLeft: '15px',
+											}}></span>
+									</>
 								)}
 							</div>
 						</List.Item>
@@ -143,6 +165,13 @@ const Categories = () => {
 							name={'name'}
 							rules={[{ required: true }]}>
 							<Input size={'large'} placeholder='Eg: Web Development' />
+						</Form.Item>
+						<Form.Item name={'color'}>
+							<Input
+								type='color'
+								className={'colorPicker'}
+								colorpick-eyedropper-active='false'
+							/>
 						</Form.Item>
 						<Form.Item>
 							<Button size='large' type='primary' htmlType='submit'>
