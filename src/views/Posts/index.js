@@ -1,5 +1,11 @@
 import React from 'react';
 import { Table, Tag, Space, Typography } from 'antd';
+import {
+	EditFilled,
+	SaveFilled,
+	DeleteFilled,
+	EyeFilled,
+} from '@ant-design/icons';
 
 const data = [
 	{
@@ -62,10 +68,11 @@ const Posts = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			render: (text, record) => (
+			render: () => (
 				<Space size='middle'>
-					<a>Invite {record.name}</a>
-					<a>Delete</a>
+					<EditFilled style={{ color: 'blue', cursor: 'pointer' }} />
+					<DeleteFilled style={{ color: 'red', cursor: 'pointer' }} />
+					<EyeFilled style={{ color: '#2db7f5', cursor: 'pointer' }} />
 				</Space>
 			),
 		},
