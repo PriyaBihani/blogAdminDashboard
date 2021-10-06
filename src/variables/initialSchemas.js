@@ -2,6 +2,7 @@ import {
 	countWords,
 	calculateReadTime,
 	createUniqueTitle,
+	createTags,
 } from '../helpers/postHelpers';
 
 export const Post = (details) => {
@@ -12,8 +13,8 @@ export const Post = (details) => {
 		mainImageAlt: details.mainImageAlt,
 		createdAt: details.createdAt || new Date().getTime(),
 		updatedAt: details.updatedAt || new Date().getTime(),
-		categories: details.categories || [],
-		tags: details.tags || [],
+		categories: details.categories || [], // Array of id's
+		tags: createTags(details.tags) || [], // Array of strings
 		keywords: details.keywords || '',
 		descSnippet: details.descSnippet || '', // blog card description
 		createdBy: details.createdBy || {}, // Doc Ref to user.
@@ -22,6 +23,7 @@ export const Post = (details) => {
 		wordCount: countWords(details.content) ?? 0,
 		isDraft: details.isDraft || false,
 		content: details.content || '',
+		isFeatured: false,
 	};
 };
 
@@ -29,6 +31,8 @@ export const Category = (details) => {
 	return {
 		id: createUniqueTitle(details.name) || '',
 		name: details.name || '',
+		color: details.color || '',
+		icon: details.svg || '',
 		createdAt: details.createdAt || new Date().getTime(),
 		updatedAt: details.updatedAt || new Date().getTime(),
 	};

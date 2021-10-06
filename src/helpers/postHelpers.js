@@ -15,3 +15,7 @@ export const calculateReadTime = (str) => {
 export const createUniqueTitle = (str) => {
 	return str.replace(/\s+/g, '-').toLowerCase();
 };
+
+export const createTags = (str) => {
+	return str.split(' ');
+};

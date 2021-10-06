@@ -65,13 +65,14 @@ export const uploadPostAssets = async (
 
 export const createPost = async (post, callback) => {
 	try {
+		console.log(post)
 		// check if unique title is already present
 		let postsRef = collection(db, constants.POSTS);
 		const q = query(postsRef, where('uniqueId', '==', post.uniqueId));
 
 		const querySnapshot = await getDocs(q);
 
-		if (querySnapshot.empty)
+		if (!querySnapshot.empty)
 			throw new Error('Post with this title already exists');
 
 		let newPost = {

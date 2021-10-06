@@ -24,3 +24,15 @@
 .site-layout .site-layout-background {
 	background: #fff;
 }
+
+.colorPicker {
+	width: 40px !important;
+	height: 40px !important;
+	padding: 0px !important;
+	border: none !important;
+	border-radius: 50% !important;
+}
+
+.colorPicker:focus {
+	outline: none !important;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
 	PlusOutlined,
@@ -12,19 +12,21 @@ import { Typography, Form, Input, Upload, Button, Select, Space } from 'antd';
 
 import isValidMainImage from '../../helpers/isValidMainImage';
 import setLoader from '../../helpers/setLoader';
-import { Post } from '../../variables/initialSchemas';
+import { Category, Post } from '../../variables/initialSchemas';
 import { createPost } from '../../API/Post';
-import Editor from '../../components/Editor';
+import { fetchAllCategories } from '../../API/Categories';
+import Editor from '../../components/Editor'
 
 const CreatePost = () => {
 	const [form] = Form.useForm();
+	const [categories, setCategories] = useState([]);
 
 	const [content, setcontent] = useState(null)
 
 	const onPublish = (postDetails) => {
 		setLoader('Creating Post.');
 		postDetails.mainImage = postDetails.mainImage.fileList[0].originFileObj;
-		postDetails = Post(postDetails);
+		postDetails = Post({ ...postDetails, content });
 		createPost(postDetails, (err, data) => {
 			setLoader(false);
 			if (err) return toast.error(err);
@@ -41,6 +43,16 @@ const CreatePost = () => {
 	const onReset = () => {
 		form.resetFields();
 	};
+
+	useEffect(() => {
+		setLoader('Fetching Categories...');
+		fetchAllCategories((err, data) => {
+			setLoader(false);
+			if (err) return toast.error(err);
+			setCategories(data);
+			toast.success(`${data.length} Categories Fetched`);
+		});
+	}, []);
 
 	return (
 		<div className={'createPostContainer'}>
@@ -112,9 +124,11 @@ const CreatePost = () => {
 						mode='multiple'
 						placeholder='Please select categories'
 						size={'large'}>
-						<Select.Option value='HTML'>HTML</Select.Option>
-						<Select.Option value='Dynamic'>Dynamic</Select.Option>
-						<Select.Option value='Whatver'>Whatver</Select.Option>
+						{categories.map((category) => (
+							<Select.Option key={category.id} value={category.id}>
+								{category.name}
+							</Select.Option>
+						))}
 					</Select>
 				</Form.Item>
 				<Form.Item
@@ -140,8 +154,9 @@ const CreatePost = () => {
 				<Form.Item
 					label='Start Writing'
 					name={'content'}
-					rules={[{ required: true }]}>
+				>
 					<Editor handleEditor={setcontent} />
+
 				</Form.Item>
 				<Form.Item>
 					<Space>
