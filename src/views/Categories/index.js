@@ -87,7 +87,7 @@ const Categories = () => {
 							className={'categoryItem'}
 							actions={[
 								<>
-									{editMode ? (
+									{editMode && item.id === editCategory.id ? (
 										<SaveFilled
 											key={item.id}
 											onClick={() => {
