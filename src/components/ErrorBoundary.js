@@ -29,6 +29,7 @@ class AppErrorBoundary extends React.Component {
 					src={ErrorSVG}
 					className={'errorfallbackui-image'}
 					alt={'An Error Occurred.'}
+					preview={false}
 				/>
 				<br />
 				<div className={'errorfallbackui-label'}>

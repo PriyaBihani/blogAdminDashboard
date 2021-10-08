@@ -12,16 +12,16 @@ import { Typography, Form, Input, Upload, Button, Select, Space } from 'antd';
 
 import isValidMainImage from '../../helpers/isValidMainImage';
 import setLoader from '../../helpers/setLoader';
-import { Category, Post } from '../../variables/initialSchemas';
+import { Post } from '../../variables/initialSchemas';
 import { createPost } from '../../API/Post';
 import { fetchAllCategories } from '../../API/Categories';
-import Editor from '../../components/Editor'
+import Editor from '../../components/Editor';
 
 const CreatePost = () => {
 	const [form] = Form.useForm();
 	const [categories, setCategories] = useState([]);
 
-	const [content, setcontent] = useState(null)
+	const [content, setcontent] = useState(null);
 
 	const onPublish = (postDetails) => {
 		setLoader('Creating Post.');
@@ -151,12 +151,8 @@ const CreatePost = () => {
 						placeholder='Around 100 characters'
 					/>
 				</Form.Item>
-				<Form.Item
-					label='Start Writing'
-					name={'content'}
-				>
+				<Form.Item label='Start Writing' name={'content'}>
 					<Editor handleEditor={setcontent} />
-
 				</Form.Item>
 				<Form.Item>
 					<Space>

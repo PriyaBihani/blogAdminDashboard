@@ -7,12 +7,13 @@ import {
 
 export const Post = (details) => {
 	return {
+		id: details.id || '',
 		uniqueId: createUniqueTitle(details.title) || '',
 		title: details.title || '',
 		mainImage: details.mainImage || '', // url
 		mainImageAlt: details.mainImageAlt,
 		createdAt: details.createdAt || new Date().getTime(),
-		updatedAt: details.updatedAt || new Date().getTime(),
+		updatedAt: new Date().getTime(),
 		categories: details.categories || [], // Array of id's
 		tags: createTags(details.tags) || [], // Array of strings
 		keywords: details.keywords || '',

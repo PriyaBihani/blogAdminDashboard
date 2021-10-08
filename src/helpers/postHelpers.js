@@ -16,6 +16,7 @@ export const createUniqueTitle = (str) => {
 	return str.replace(/\s+/g, '-').toLowerCase();
 };
 
-export const createTags = (str) => {
-	return str.split(' ');
+export const createTags = (val) => {
+	if (typeof val === 'object') return val;
+	return val.split(' ');
 };

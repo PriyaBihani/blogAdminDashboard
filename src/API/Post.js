@@ -8,6 +8,7 @@ import {
 	serverTimestamp,
 	query,
 	collection,
+	deleteDoc,
 	where,
 } from 'firebase/firestore';
 import {
@@ -18,6 +19,24 @@ import {
 } from 'firebase/storage';
 import db from '../firebase/database';
 import setLoader from '../helpers/setLoader';
+
+export const fetchAllPosts = async (callback) => {
+	try {
+		let postRef = collection(db, constants.POSTS);
+		let postsSnapshot = await getDocs(postRef);
+
+		let posts = [];
+
+		postsSnapshot.forEach((doc) => {
+			posts.push(doc.data());
+		});
+
+		callback(null, posts);
+	} catch (error) {
+		console.log(error);
+		callback(error.message, null);
+	}
+};
 
 export const uploadPostAssets = async (
 	postImageFile,
@@ -65,8 +84,6 @@ export const uploadPostAssets = async (
 
 export const createPost = async (post, callback) => {
 	try {
-		console.log(post)
-		// check if unique title is already present
 		let postsRef = collection(db, constants.POSTS);
 		const q = query(postsRef, where('uniqueId', '==', post.uniqueId));
 
@@ -98,6 +115,52 @@ export const createPost = async (post, callback) => {
 		callback(null, {
 			...newPost,
 		});
+	} catch (error) {
+		console.log(error);
+		callback(error.message, null);
+	}
+};
+
+export const updatePost = async (post, oldPost, callback) => {
+	try {
+		let postsRef = collection(db, constants.POSTS);
+
+		// TO check if there is new uniqueId and if it is, it is unique in db.
+		if (post.uniqueId !== oldPost.uniqueId) {
+			const q = query(postsRef, where('uniqueId', '==', post.uniqueId));
+
+			const querySnapshot = await getDocs(q);
+
+			if (!querySnapshot.empty)
+				throw new Error('Post with this title already exists');
+		}
+
+		if (typeof post.mainImage === 'object') {
+			let url = await uploadPostAssets(post.mainImage, post.id);
+			post.mainImage = url;
+		}
+
+		if (typeof post.mainImage === 'string') {
+			post.updatedAt = serverTimestamp();
+			let docRef = doc(db, constants.POSTS, post.id);
+			await setDoc(docRef, post, { merge: true });
+		} else {
+			throw new Error('Error uploading image, please try again later');
+		}
+
+		callback(null, post);
+	} catch (error) {
+		console.log(error);
+		callback(error.message, null);
+	}
+};
+
+export const deletePost = async (post, callback) => {
+	try {
+		let docRef = doc(db, constants.POSTS, post.id);
+		await deleteDoc(docRef);
+
+		return callback(null, post);
 	} catch (error) {
 		console.log(error);
 		callback(error.message, null);
