@@ -9,6 +9,7 @@ import {
 	Upload,
 	Button,
 	Select,
+	Switch,
 } from 'antd';
 import {
 	EditFilled,
@@ -175,6 +176,9 @@ const Posts = () => {
 							rules={[{ required: true }]}>
 							<Input size={'large'} placeholder='Eg: How to start web dev' />
 						</Form.Item>
+						<Form.Item label='Featured Post' name={'isFeatured'}>
+							<Switch size={'large'} />
+						</Form.Item>
 						<Form.Item
 							label='Main Image'
 							name={'mainImage'}
@@ -207,9 +211,51 @@ const Posts = () => {
 								</div>
 							</Upload>
 						</Form.Item>
+
 						<Form.Item
 							label='Post Main Image Alt Text'
 							name={'mainImageAlt'}
+							rules={[{ required: true }]}>
+							<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
+						</Form.Item>
+						<Form.Item
+							label='Card Image'
+							name={'cardImage'}
+							rules={[
+								{
+									required: true,
+									message: 'Please upload a file.',
+								},
+								() => ({
+									validator(_, value) {
+										if (
+											value &&
+											isValidMainImage(value.fileList[0].originFileObj)
+										) {
+											return Promise.resolve();
+										}
+										return Promise.reject(
+											new Error('File dimensions are wrong.')
+										);
+									},
+								}),
+							]}>
+							<Upload
+								accept={'image/*'}
+								name='fileList'
+								listType='picture-card'
+								maxCount={1}
+								showUploadList={true}
+								beforeUpload={() => false}>
+								<div style={{ marginTop: 8 }}>
+									<PlusOutlined />
+									Upload
+								</div>
+							</Upload>
+						</Form.Item>
+						<Form.Item
+							label='Post Card Image Alt Text'
+							name={'cardImageAlt'}
 							rules={[{ required: true }]}>
 							<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
 						</Form.Item>

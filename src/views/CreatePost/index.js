@@ -8,7 +8,16 @@ import {
 	EyeFilled,
 } from '@ant-design/icons';
 import toast from 'react-hot-toast';
-import { Typography, Form, Input, Upload, Button, Select, Space } from 'antd';
+import {
+	Typography,
+	Form,
+	Input,
+	Upload,
+	Button,
+	Select,
+	Space,
+	Switch,
+} from 'antd';
 
 import isValidMainImage from '../../helpers/isValidMainImage';
 import setLoader from '../../helpers/setLoader';
@@ -68,6 +77,9 @@ const CreatePost = () => {
 					rules={[{ required: true }]}>
 					<Input size={'large'} placeholder='Eg: How to start web dev' />
 				</Form.Item>
+				<Form.Item label='Featured Post' name={'isFeatured'}>
+					<Switch size={'large'} />
+				</Form.Item>
 				<Form.Item
 					label='Main Image'
 					name={'mainImage'}
@@ -104,6 +116,45 @@ const CreatePost = () => {
 				<Form.Item
 					label='Post Main Image Alt Text'
 					name={'mainImageAlt'}
+					rules={[{ required: true }]}>
+					<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
+				</Form.Item>
+				<Form.Item
+					label='Card Image'
+					name={'cardImage'}
+					rules={[
+						{
+							required: true,
+							message: 'Please upload a file.',
+						},
+						() => ({
+							validator(_, value) {
+								if (
+									value &&
+									isValidMainImage(value.fileList[0].originFileObj)
+								) {
+									return Promise.resolve();
+								}
+								return Promise.reject(new Error('File dimensions are wrong.'));
+							},
+						}),
+					]}>
+					<Upload
+						accept={'image/*'}
+						name='fileList'
+						listType='picture-card'
+						maxCount={1}
+						showUploadList={true}
+						beforeUpload={() => false}>
+						<div style={{ marginTop: 8 }}>
+							<PlusOutlined />
+							Upload
+						</div>
+					</Upload>
+				</Form.Item>
+				<Form.Item
+					label='Post Card Image Alt Text'
+					name={'cardImageAlt'}
 					rules={[{ required: true }]}>
 					<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
 				</Form.Item>

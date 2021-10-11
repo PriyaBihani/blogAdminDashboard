@@ -19,6 +19,7 @@ import {
 } from 'firebase/storage';
 import db from '../firebase/database';
 import setLoader from '../helpers/setLoader';
+import { typeParameter } from '@babel/types';
 
 export const fetchAllPosts = async (callback) => {
 	try {
@@ -61,7 +62,7 @@ export const uploadPostAssets = async (
 					const progress =
 						(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
-					setLoader(`Uploading image.. ${progress}`);
+					setLoader(`Uploading image.. ${Math.floor(progress.toFixed(1))}`);
 				},
 				(error) => {
 					throw new Error(error.message);
@@ -99,13 +100,19 @@ export const createPost = async (post, callback) => {
 			updatedAt: serverTimestamp(),
 		};
 
-		let url;
+		let mainImageURL, cardImageURL;
 		if (post.mainImage && Object.keys(post.mainImage).length > 0) {
-			url = await uploadPostAssets(post.mainImage, newPost.id);
+			mainImageURL = await uploadPostAssets(post.mainImage, newPost.id);
+			cardImageURL = await uploadPostAssets(
+				post.cardImage,
+				newPost.id,
+				'cardImage'
+			);
 		}
 
-		if (typeof url === 'string') {
-			newPost.mainImage = url;
+		if (typeof mainImageURL === 'string' && typeof cardImageURL === 'string') {
+			newPost.mainImage = mainImageURL;
+			newPost.cardImage = cardImageURL;
 			let docRef = doc(db, constants.POSTS, newPost.id);
 			await setDoc(docRef, newPost);
 		} else {
@@ -140,7 +147,15 @@ export const updatePost = async (post, oldPost, callback) => {
 			post.mainImage = url;
 		}
 
-		if (typeof post.mainImage === 'string') {
+		if (typeof post.cardImage === 'object') {
+			let url = await uploadPostAssets(post.cardImage, post.id);
+			post.cardImage = url;
+		}
+
+		if (
+			typeof post.mainImage === 'string' &&
+			typeof post.cardImage === 'string'
+		) {
 			post.updatedAt = serverTimestamp();
 			let docRef = doc(db, constants.POSTS, post.id);
 			await setDoc(docRef, post, { merge: true });
