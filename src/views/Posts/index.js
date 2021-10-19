@@ -36,6 +36,9 @@ const Posts = () => {
 	const [editView, setEditView] = useState(false);
 	const [postToEdit, setPostToEdit] = useState({});
 
+	const [content, setcontent] = useState(null);
+
+
 	useEffect(() => {
 		setLoader('Fetching Posts...');
 		fetchAllPosts((err, posts) => {
@@ -124,9 +127,11 @@ const Posts = () => {
 				<Space size='middle'>
 					<EditFilled
 						onClick={() => {
+							console.log({ ...record })
 							setEditView(true);
 							form.setFieldsValue({ ...record });
 							setPostToEdit(record);
+							setcontent(record.content)
 						}}
 						style={{ color: 'blue', cursor: 'pointer' }}
 					/>
@@ -142,7 +147,7 @@ const Posts = () => {
 
 	const onUpdate = (postDetails) => {
 		setLoader('Updating Post');
-		postDetails = Post({ ...postToEdit, ...postDetails });
+		postDetails = Post({ ...postToEdit, ...postDetails, content });
 		updatePost(postDetails, postToEdit, (err, post) => {
 			setLoader(false);
 			if (err) return toast.error(err);
@@ -154,6 +159,8 @@ const Posts = () => {
 			return toast.success('Post Updated Successfully.');
 		});
 	};
+
+
 
 	return (
 		<>
@@ -221,25 +228,7 @@ const Posts = () => {
 						<Form.Item
 							label='Card Image'
 							name={'cardImage'}
-							rules={[
-								{
-									required: true,
-									message: 'Please upload a file.',
-								},
-								() => ({
-									validator(_, value) {
-										if (
-											value &&
-											isValidMainImage(value.fileList[0].originFileObj)
-										) {
-											return Promise.resolve();
-										}
-										return Promise.reject(
-											new Error('File dimensions are wrong.')
-										);
-									},
-								}),
-							]}>
+						>
 							<Upload
 								accept={'image/*'}
 								name='fileList'
@@ -303,9 +292,9 @@ const Posts = () => {
 								placeholder='Around 100 characters'
 							/>
 						</Form.Item>
-						{/* <Form.Item label='Start Writing' name={'content'}>
-							<Editor handleEditor={setcontent} />
-						</Form.Item> */}
+						<Form.Item label='Start Writing' name={'content'}>
+							<Editor handleEditor={setcontent} defaultVal={content} />
+						</Form.Item>
 						<Form.Item>
 							<Space>
 								<Button size='large' type='primary' htmlType='submit'>

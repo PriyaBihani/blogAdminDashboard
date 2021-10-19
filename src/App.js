@@ -28,6 +28,12 @@ const App = () => {
 		setupOfflineDetectors();
 	}, []);
 
+	useEffect(() => {
+		const script = document.createElement("script");
+		script.setAttribute("src", "https://platform.twitter.com/widgets.js");
+		document.body.appendChild(script);
+	}, []);
+
 	return (
 		<AppErrorBoundary logoutUser={() => console.log('FUnc to logout')}>
 			{isDeviceOffline && (
