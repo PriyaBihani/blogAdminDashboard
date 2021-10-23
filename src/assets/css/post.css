@@ -1,9 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400&display=swap');
 .createPostContainer {
-	padding: 16px 32px;
-	width: 70%;
+    padding: 16px 32px;
+    width: 70%;
 }
 
 .viewPostContainer {
-	padding: 16px 32px;
-	width: 90%;
+    padding: 16px 32px;
+    width: 90%;
+}
+
+#custom-blockquote {
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    margin: 25px;
+    padding: 10px;
+    font-family: "Source Sans Pro";
+    color: #333333;
+    border-radius: 10px;
+}
+
+.jodit-workplace * {
+    color: #333333da !important;
+    font-family: "Source Sans Pro";
+    line-height: 5px !important;
+    font-size: 1.1rem;
+}
+
+.jodit-workplace .ace_focus * {
+    color: #fff !important;
+    font-family: "Source Sans Pro";
+    line-height: 30px !important;
+    font-size: 1.1rem;
+}
+
+
+/* highlight */
+
+.highlight {
+    display: inline;
+    background: linear-gradient(179deg, rgba(255, 255, 255, 0) 65%, #00ffea 65%);
+}
+
+
+/* blockqoute */
+
+.blockquote {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    quotes: "\201C""\201D""\2018""\2019";
+    margin: 40px 0px;
+}
+
+.blockquote:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
 }

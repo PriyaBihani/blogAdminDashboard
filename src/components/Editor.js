@@ -7,7 +7,7 @@ import setLoader from '../helpers/setLoader';
 
 
 
-const Editor = ({ handleEditor, defaultVal }) => {
+const Editor = ({ handleEditor, defaultVal, setUploads }) => {
 	const editor = useRef(null);
 	const [content, setContent] = useState(defaultVal);
 	const config = {
@@ -24,6 +24,9 @@ const Editor = ({ handleEditor, defaultVal }) => {
 				return { hello: 'Hello world' }
 			}
 		},
+		cleanWhitespace: false,
+		editorCssClass: "temp",
+
 		extraButtons: [
 			{
 				iconURL: 'https://www.svgrepo.com/show/358478/circle-layer.svg',
@@ -43,19 +46,20 @@ const Editor = ({ handleEditor, defaultVal }) => {
 							throw new Error("Upload a file")
 						}
 
-						if (!imageFile.name.match(/\.(jpg|jpeg|png|svg)$/)) {
+						if (!imageFile.name.match(/\.(jpg|jpeg|png|PNG|svg)$/)) {
 							toast.error("Upload FAILED!! file Not an image")
 							// throw new Error("Upload FAILED!! file Not an image")
 							input.remove()
 							return
 						}
 						try {
-							const url = await uploadPostAssets(imageFile, imageFile.name, imageFile.name)
+							const { url, path } = await uploadPostAssets(imageFile, imageFile.name, imageFile.name)
 							const image = editor.selection.j.createInside.element('img');
 							image.setAttribute('src', url);
 							editor.selection.insertNode(image);
 							setLoader(false)
 							toast.success("File added successfully")
+							setUploads((current) => [...current, path])
 						} catch (error) {
 							console.log(error)
 							setLoader(false)
@@ -64,6 +68,31 @@ const Editor = ({ handleEditor, defaultVal }) => {
 
 					}
 
+				}
+			},
+			{
+				iconURL: 'https://www.svgrepo.com/show/361440/container.svg',
+				name: 'insertQuote',
+				tooltip: 'Upload&Insert Image',
+				exec: (editor) => {
+					editor.selection.insertHTML("<div id='custom-blockquote' >Your tetx here</div>")
+				}
+			},
+			// {
+			// 	iconURL: 'https://www.svgrepo.com/show/174811/left-quotes.svg',
+			// 	name: 'insertQuote',
+			// 	tooltip: 'Upload&Insert Image',
+			// 	exec: (editor) => {
+			// 		editor.selection.applyStyle(null, { className: "blockquote" })
+			// 		editor.selection.cursorOnTheRight('div')
+			// 	}
+			// }
+			{
+				iconURL: 'https://www.svgrepo.com/show/105965/marker.svg',
+				name: 'insertQuote',
+				tooltip: 'Upload&Insert Image',
+				exec: (editor) => {
+					editor.selection.applyStyle(null, { className: "highlight" })
 				}
 			}
 		]
