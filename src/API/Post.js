@@ -129,17 +129,18 @@ export const createPost = async (post, callback) => {
 
 		let mainImageURL, cardImageURL;
 		if (post.mainImage && Object.keys(post.mainImage).length > 0) {
-			mainImageURL = await uploadPostAssets(post.mainImage, newPost.id);
+			mainImageURL = await uploadPostAssets(post.mainImage, newPost.id)
 			cardImageURL = await uploadPostAssets(
 				post.cardImage,
 				newPost.id,
 				'cardImage'
-			);
+			)
 		}
+		if (typeof mainImageURL.url === 'string' && typeof cardImageURL.url === 'string') {
+			console.log(mainImageURL, cardImageURL)
 
-		if (typeof mainImageURL === 'string' && typeof cardImageURL === 'string') {
-			newPost.mainImage = mainImageURL;
-			newPost.cardImage = cardImageURL;
+			newPost.mainImage = mainImageURL.url;
+			newPost.cardImage = cardImageURL.url;
 			let docRef = doc(db, constants.POSTS, newPost.id);
 			await setDoc(docRef, newPost);
 		} else {

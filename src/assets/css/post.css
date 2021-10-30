@@ -10,26 +10,26 @@
 }
 
 #custom-blockquote {
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-    margin: 25px;
-    padding: 10px;
+    /* box-shadow: rgb(140, 24, 182) 0px 20px 30px -10px; */
+    border-radius: 5px;
+    margin: 5px;
+    padding: 3px;
     font-family: "Source Sans Pro";
-    color: #333333;
+    color: #333333 !important;
     border-radius: 10px;
+    word-spacing: 3px !important;
+    font-size: 1.1rem !important;
+    padding: 20px !important;
+    border: 10px solid;
+    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23cffffe' /%3E%3Cstop offset='25%25' stop-color='%23f9f7d9' /%3E%3Cstop offset='50%25' stop-color='%23fce2ce' /%3E%3Cstop offset='100%25' stop-color='%23ffc1f3' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3'/%3E %3C/svg%3E") 1;
 }
 
-.jodit-workplace * {
+.jodit-workplace p {
     color: #333333da !important;
     font-family: "Source Sans Pro";
-    line-height: 5px !important;
+    line-height: 20px !important;
     font-size: 1.1rem;
-}
-
-.jodit-workplace .ace_focus * {
-    color: #fff !important;
-    font-family: "Source Sans Pro";
-    line-height: 30px !important;
-    font-size: 1.1rem;
+    word-spacing: 3px !important;
 }
 
 
@@ -58,3 +58,6 @@
     margin-right: 0.25em;
     vertical-align: -0.4em;
 }
+
+
+/* border */

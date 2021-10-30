@@ -4,6 +4,7 @@ import JoditEditor from 'jodit-react';
 import { uploadPostAssets } from '../API/Post';
 import toast from 'react-hot-toast';
 import setLoader from '../helpers/setLoader';
+import hljs from 'highlight.js';
 
 
 
@@ -75,7 +76,7 @@ const Editor = ({ handleEditor, defaultVal, setUploads }) => {
 				name: 'insertQuote',
 				tooltip: 'Upload&Insert Image',
 				exec: (editor) => {
-					editor.selection.insertHTML("<div id='custom-blockquote' >Your tetx here</div>")
+					editor.selection.insertHTML(`<div id='custom-blockquote' ></div>`)
 				}
 			},
 			// {
@@ -93,6 +94,16 @@ const Editor = ({ handleEditor, defaultVal, setUploads }) => {
 				tooltip: 'Upload&Insert Image',
 				exec: (editor) => {
 					editor.selection.applyStyle(null, { className: "highlight" })
+				}
+			},
+			{
+				iconURL: 'https://www.svgrepo.com/show/7026/calendar.svg',
+				name: 'InsertDate',
+				tooltip: 'Insert date header',
+				exec: (editor) => {
+					const date = new Date().toDateString().split(' ')
+					const html = `<p><span class="category-eyebrow__date" style="display: block; line-height: 1.28577; font-weight: 600; letter-spacing: -0.016em; font-family: &quot;SF Pro Text&quot;, &quot;SF Pro Icons&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(67, 67, 67); margin-top: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;  text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 14px;">${date[1]} ${date[2]}, ${date[3]}</span></p>`
+					editor.selection.insertHTML(html)
 				}
 			}
 		]
