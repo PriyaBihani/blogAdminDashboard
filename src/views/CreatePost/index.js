@@ -22,7 +22,7 @@ import {
 import isValidMainImage from '../../helpers/isValidMainImage';
 import setLoader from '../../helpers/setLoader';
 import { Post } from '../../variables/initialSchemas';
-import { createPost } from '../../API/Post';
+import { createPost, deletePostAssets } from '../../API/Post';
 import { fetchAllCategories } from '../../API/Categories';
 import Editor from '../../components/Editor';
 
@@ -31,6 +31,8 @@ const CreatePost = () => {
 	const [categories, setCategories] = useState([]);
 
 	const [content, setcontent] = useState(null);
+	const [uploads, setUploads] = useState([])
+
 
 	const onPublish = (postDetails) => {
 		setLoader('Creating Post.');
@@ -51,6 +53,10 @@ const CreatePost = () => {
 
 	const onReset = () => {
 		form.resetFields();
+		console.log(uploads)
+		uploads && uploads.forEach(upload => {
+			deletePostAssets(upload)
+		})
 	};
 
 	useEffect(() => {
@@ -61,6 +67,8 @@ const CreatePost = () => {
 			setCategories(data);
 			toast.success(`${data.length} Categories Fetched`);
 		});
+
+
 	}, []);
 
 	return (
@@ -203,7 +211,7 @@ const CreatePost = () => {
 					/>
 				</Form.Item>
 				<Form.Item label='Start Writing' name={'content'}>
-					<Editor handleEditor={setcontent} />
+					<Editor setUploads={setUploads} handleEditor={setcontent} />
 				</Form.Item>
 				<Form.Item>
 					<Space>

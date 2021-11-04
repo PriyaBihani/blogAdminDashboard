@@ -4,3 +4,4 @@
 @import './post.css';
 @import './categories.css';
 @import './comingsoon.css';
+@import '/node_modules/highlight.js/styles/a11y-dark.css'

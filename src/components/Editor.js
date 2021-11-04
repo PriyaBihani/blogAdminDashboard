@@ -4,6 +4,7 @@ import JoditEditor from 'jodit-react';
 import { uploadPostAssets } from '../API/Post';
 import toast from 'react-hot-toast';
 import setLoader from '../helpers/setLoader';
+import hljs from 'highlight.js';
 
 const Editor = ({ handleEditor, defaultVal }) => {
 	const editor = useRef(null);
@@ -22,6 +23,9 @@ const Editor = ({ handleEditor, defaultVal }) => {
 				return { hello: 'Hello world' };
 			},
 		},
+		cleanWhitespace: false,
+		editorCssClass: 'temp',
+
 		extraButtons: [
 			{
 				iconURL: 'https://www.svgrepo.com/show/358478/circle-layer.svg',
