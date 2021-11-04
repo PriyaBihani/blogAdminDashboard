@@ -5,8 +5,6 @@ import { uploadPostAssets } from '../API/Post';
 import toast from 'react-hot-toast';
 import setLoader from '../helpers/setLoader';
 
-
-
 const Editor = ({ handleEditor, defaultVal }) => {
 	const editor = useRef(null);
 	const [content, setContent] = useState(defaultVal);
@@ -21,54 +19,56 @@ const Editor = ({ handleEditor, defaultVal }) => {
 				return 'application/json';
 			},
 			buildData: function (data) {
-				return { hello: 'Hello world' }
-			}
+				return { hello: 'Hello world' };
+			},
 		},
 		extraButtons: [
 			{
 				iconURL: 'https://www.svgrepo.com/show/358478/circle-layer.svg',
 				name: 'insertDate',
-				tooltip: 'Upload&Insert Image',
+				tooltip: 'Upload & Insert Image to firebase',
 				exec: (editor) => {
-					// create upload 
+					// create upload
 					const input = document.createElement('input');
 					input.setAttribute('type', 'file');
 					input.setAttribute('accept', 'image/*');
 					input.click();
+
 					// listener
 					input.onchange = async function () {
 						const imageFile = input.files[0];
 						if (!imageFile) {
-							toast.error("File upload failed")
-							throw new Error("Upload a file")
+							toast.error('File upload failed');
+							throw new Error('Upload a file');
 						}
 
 						if (!imageFile.name.match(/\.(jpg|jpeg|png|svg)$/)) {
-							toast.error("Upload FAILED!! file Not an image")
+							toast.error('Upload FAILED!! file Not an image');
 							// throw new Error("Upload FAILED!! file Not an image")
-							input.remove()
-							return
+							input.remove();
+							return;
 						}
+
 						try {
-							const url = await uploadPostAssets(imageFile, imageFile.name, imageFile.name)
+							const url = await uploadPostAssets(
+								imageFile,
+								imageFile.name,
+								imageFile.name
+							);
 							const image = editor.selection.j.createInside.element('img');
 							image.setAttribute('src', url);
 							editor.selection.insertNode(image);
-							setLoader(false)
-							toast.success("File added successfully")
+							setLoader(false);
+							toast.success('File added successfully');
 						} catch (error) {
-							console.log(error)
-							setLoader(false)
-							toast.error("Upload failed")
+							console.log(error);
+							setLoader(false);
+							toast.error('Upload failed');
 						}
-
-					}
-
-				}
-			}
-		]
-
-
+					};
+				},
+			},
+		],
 	};
 
 	return useMemo(
@@ -90,4 +90,3 @@ const Editor = ({ handleEditor, defaultVal }) => {
 };
 
 export default Editor;
-

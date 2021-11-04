@@ -38,7 +38,6 @@ const Posts = () => {
 
 	const [content, setcontent] = useState(null);
 
-
 	useEffect(() => {
 		setLoader('Fetching Posts...');
 		fetchAllPosts((err, posts) => {
@@ -127,11 +126,11 @@ const Posts = () => {
 				<Space size='middle'>
 					<EditFilled
 						onClick={() => {
-							console.log({ ...record })
+							console.log({ ...record });
 							setEditView(true);
 							form.setFieldsValue({ ...record });
 							setPostToEdit(record);
-							setcontent(record.content)
+							setcontent(record.content);
 						}}
 						style={{ color: 'blue', cursor: 'pointer' }}
 					/>
@@ -159,8 +158,6 @@ const Posts = () => {
 			return toast.success('Post Updated Successfully.');
 		});
 	};
-
-
 
 	return (
 		<>
@@ -225,10 +222,7 @@ const Posts = () => {
 							rules={[{ required: true }]}>
 							<Input size={'large'} placeholder='Eg: Web dev, HTML, CSS' />
 						</Form.Item>
-						<Form.Item
-							label='Card Image'
-							name={'cardImage'}
-						>
+						<Form.Item label='Card Image' name={'cardImage'}>
 							<Upload
 								accept={'image/*'}
 								name='fileList'
