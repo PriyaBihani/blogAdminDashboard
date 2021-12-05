@@ -20,7 +20,6 @@ import {
 } from 'firebase/storage';
 import db from '../firebase/database';
 import setLoader from '../helpers/setLoader';
-import { typeParameter } from '@babel/types';
 
 export const fetchAllPosts = async (callback) => {
 	try {
@@ -40,31 +39,26 @@ export const fetchAllPosts = async (callback) => {
 	}
 };
 
-
-export const deletePostAssets = async (
-	filePath,
-) => {
+export const deletePostAssets = async (filePath) => {
 	try {
 		if (!filePath) throw new Error('No image file provided');
 
 		const storage = getStorage();
 		const desertRef = ref(storage, filePath);
-		console.log(desertRef)
-		deleteObject(desertRef).then(() => {
-			// File deleted successfully
-			console.log(`${filePath} deleted successfully`)
-		}).catch((error) => {
-			// Uh-oh, an error occurred!
-			console.log(`Error deleting file ${filePath} `)
-
-		});
-
+		deleteObject(desertRef)
+			.then(() => {
+				// File deleted successfully
+				console.log(`${filePath} deleted successfully`);
+			})
+			.catch((error) => {
+				// Uh-oh, an error occurred!
+				console.log(`Error deleting file ${filePath} `);
+			});
 	} catch (error) {
 		console.log(error);
 		return null;
 	}
 };
-
 
 export const uploadPostAssets = async (
 	postImageFile,
@@ -80,7 +74,6 @@ export const uploadPostAssets = async (
 		const uploadImage = uploadBytesResumable(storageRef, postImageFile, {
 			contentType: postImageFile.type,
 		});
-
 
 		let val = new Promise((resolve) => {
 			uploadImage.on(
@@ -129,16 +122,17 @@ export const createPost = async (post, callback) => {
 
 		let mainImageURL, cardImageURL;
 		if (post.mainImage && Object.keys(post.mainImage).length > 0) {
-			mainImageURL = await uploadPostAssets(post.mainImage, newPost.id)
+			mainImageURL = await uploadPostAssets(post.mainImage, newPost.id);
 			cardImageURL = await uploadPostAssets(
 				post.cardImage,
 				newPost.id,
 				'cardImage'
-			)
+			);
 		}
-		if (typeof mainImageURL.url === 'string' && typeof cardImageURL.url === 'string') {
-			console.log(mainImageURL, cardImageURL)
-
+		if (
+			typeof mainImageURL.url === 'string' &&
+			typeof cardImageURL.url === 'string'
+		) {
 			newPost.mainImage = mainImageURL.url;
 			newPost.cardImage = cardImageURL.url;
 			let docRef = doc(db, constants.POSTS, newPost.id);
@@ -158,6 +152,8 @@ export const createPost = async (post, callback) => {
 
 export const updatePost = async (post, oldPost, callback) => {
 	try {
+		console.log(post, oldPost);
+
 		let postsRef = collection(db, constants.POSTS);
 
 		// TO check if there is new uniqueId and if it is, it is unique in db.

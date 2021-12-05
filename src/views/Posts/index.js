@@ -91,15 +91,16 @@ const Posts = () => {
 			key: 'categories',
 			render: (postCategories) => (
 				<>
-					{postCategories.map((postCategory) => {
-						return (
-							<Tag color='#2db7f5' key={postCategory}>
-								{categories &&
-									categories.find((category) => category.id === postCategory)
-										?.name}
-							</Tag>
-						);
-					})}
+					{postCategories &&
+						postCategories.map((postCategory) => {
+							return (
+								<Tag color='#2db7f5' key={postCategory}>
+									{categories &&
+										categories.find((category) => category.id === postCategory)
+											?.name}
+								</Tag>
+							);
+						})}
 				</>
 			),
 		},
