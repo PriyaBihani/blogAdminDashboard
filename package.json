@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"@grammarly/editor-sdk-react": "^2.0.3",
 		"antd": "^4.16.13",
 		"firebase": "^9.1.1",
 		"highlight.js": "^11.3.1",
