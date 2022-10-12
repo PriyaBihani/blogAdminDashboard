@@ -1,12 +1,15 @@
 import React, { useRef, useState, useMemo } from 'react';
 import JoditEditor from 'jodit-react';
 import { Jodit } from 'jodit';
+import { Grammarly, GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 
 import { uploadPostAssets } from '../API/Post';
 import toast from 'react-hot-toast';
 import setLoader from '../helpers/setLoader';
 import hljs from 'highlight.js';
 import Prism from 'prismjs';
+
+const grammarlyClientId = "client_AunLYupJkdVjSDH5FtuF8F";
 
 const Editor = ({ handleEditor, defaultVal }) => {
 	const editor = useRef(null);
@@ -74,16 +77,7 @@ const Editor = ({ handleEditor, defaultVal }) => {
 						}
 					};
 				},
-			},
-			// {
-			// 	iconURL: 'https://www.svgrepo.com/show/174811/left-quotes.svg',
-			// 	name: 'insertQuote',
-			// 	tooltip: 'Upload&Insert Image',
-			// 	exec: (editor) => {
-			// 		editor.selection.applyStyle(null, { className: "blockquote" })
-			// 		editor.selection.cursorOnTheRight('div')
-			// 	}
-			// }
+			},``
 			{
 				iconURL: 'https://www.svgrepo.com/show/105965/marker.svg',
 				name: 'insertQuote',
@@ -144,15 +138,31 @@ const Editor = ({ handleEditor, defaultVal }) => {
 	return useMemo(
 		() => (
 			<div className='upload-modal'>
-				<JoditEditor
-					ref={editor}
-					value={content}
-					config={config}
-					onChange={(content) => {
-						setContent(content);
-						handleEditor(content);
-					}}
-				/>
+				<Grammarly
+          clientId={grammarlyClientId}
+          config={{
+            documentDialect: "british",
+            autocomplete: "on",
+          }}
+        >
+          <GrammarlyEditorPlugin
+            clientId={grammarlyClientId}
+            config={{
+              documentDialect: "british",
+              autocomplete: "on",
+            }}
+          >
+            <JoditEditor
+              ref={editor}
+              value={content}
+              config={config}
+              onChange={(content) => {
+                setContent(content);
+                handleEditor(content);
+              }}
+            />
+          </GrammarlyEditorPlugin>
+        </Grammarly>
 			</div>
 		),
 		[]
